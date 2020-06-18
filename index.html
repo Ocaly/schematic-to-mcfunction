@@ -1,0 +1,47 @@
+<!doctype html>
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Schematic-MCfunction converter</title>
+		<script src="id.js"></script>
+		<script src="pako/pako.min.js"></script>
+		<script src="schematictomcfunction.js"></script>
+	</head>
+
+	<body>
+		<input type="file" id="files" name="files[]" multiple>
+		<div id="output"></div>
+
+		<div id="GenerateForm" style="display:none;">
+			<label for="Performer">Team performer (only works below 1.12)</label>
+			<select id="Performer" onchange="
+				if (this.options[this.selectedIndex].index == 1) document.getElementById('SelectorBlock').style.display = 'block';
+				else document.getElementById('SelectorBlock').style.display = 'none';
+			">
+				<option>Command Block</option>
+				<option>Essence</option>
+			</select>
+			<div id="SelectorBlock" style="display:none">
+				<label for="Selector">Selector (@p, @s, @a, @e, @r)</label>
+				<input type="text" id="Selector">
+				<div class="GenerateForm" id="GenerateFormOutput"></div>
+			</div>
+			<div>
+				<label for="BuildAir">Build with air</label>
+				<input type="checkbox" id="BuildAir">
+			</div>
+			<div>
+				<button id="GenerateButton" onclick="if(generator()) document.getElementById('DownloadMcfunctionLink').click()">Generate mcfunction!</button>
+			</div>
+		</div>
+
+		<div id="DownloadMcfunction" style="display:none;">
+			<a href="" id="DownloadMcfunctionLink">Save File</a>
+		</div>
+
+		<script>
+			document.getElementById('files').addEventListener('change', receivingFile, false);
+		</script>
+	</body>
+</html>
