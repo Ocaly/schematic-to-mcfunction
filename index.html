@@ -1,47 +1,164 @@
-<!doctype html>
-
+<!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<title>Schematic-MCfunction converter</title>
-		<script src="id.js"></script>
-		<script src="pako/pako.min.js"></script>
-		<script src="schematictomcfunction.js"></script>
-	</head>
+  <head>
+    <meta charset="utf-8">
+    <title>Schematic->MCfunction converter</title>
+    <script src="id.js"></script>
+    <script src="pako/pako.min.js"></script>
+    <script src="schematictomcfunction.js"></script>
+  </head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  body {
+    background-image: url('background + examples/geopattern.png');
+  }
+  </style>
+<style>
 
-	<body>
-		<input type="file" id="files" name="files[]" multiple>
-		<div id="output"></div>
 
-		<div id="GenerateForm" style="display:none;">
-			<label for="Performer">Team performer (only works below 1.12)</label>
-			<select id="Performer" onchange="
-				if (this.options[this.selectedIndex].index == 1) document.getElementById('SelectorBlock').style.display = 'block';
-				else document.getElementById('SelectorBlock').style.display = 'none';
-			">
-				<option>Command Block</option>
-				<option>Essence</option>
-			</select>
-			<div id="SelectorBlock" style="display:none">
-				<label for="Selector">Selector (@p, @s, @a, @e, @r)</label>
-				<input type="text" id="Selector">
-				<div class="GenerateForm" id="GenerateFormOutput"></div>
-			</div>
-			<div>
-				<label for="BuildAir">Build with air</label>
-				<input type="checkbox" id="BuildAir">
-			</div>
-			<div>
-				<button id="GenerateButton" onclick="if(generator()) document.getElementById('DownloadMcfunctionLink').click()">Generate mcfunction!</button>
-			</div>
-		</div>
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
 
-		<div id="DownloadMcfunction" style="display:none;">
-			<a href="" id="DownloadMcfunctionLink">Save File</a>
-		</div>
+header {
+  background-color: #36393F;
+  padding: 10px;
+  text-align: center;
+  font-size: 35px;
+  color: white;
+}
 
-		<script>
-			document.getElementById('files').addEventListener('change', receivingFile, false);
-		</script>
-	</body>
+/* Container for flexboxes */
+section {
+  display: -webkit-flex;
+  display: flex;
+  background-color: #36393F;
+  padding: 5px;
+  text-align: left;
+  font-size: 20px;
+  color: white;
+}
+
+/* Style the navigation menu */
+nav {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  background: #ccc;
+  padding: 20px;
+}
+
+/* Style the list inside the menu */
+nav ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+/* Style the content */
+article {
+  -webkit-flex: 3;
+  -ms-flex: 3;
+  flex: 3;
+  background-color: #f1f1f5;
+  padding: 12px;
+  color: black;
+}
+
+/* Style the footer */
+footer {
+  background-color: #777;
+  padding: 12px;
+  text-align: center;
+  color: white;
+}
+
+/* Responsive layout - makes the menu and the content (inside the section) sit on top of each other instead of next to each other */
+@media (max-width: 600px) {
+  section {
+    -webkit-flex-direction: column;
+    flex-direction: column;
+  }
+}
+</style>
+</head>
+<body>
+<header>
+  <h2>.schematic > .mcfunction</h2>
+</header>
+<section>
+    <input type="file" id="files" name="files[]" multiple>
+    <div id="output"></div>
+</section>
+<section>
+  <div id="GenerateForm" style="display:none;">
+      <label for="Performer">Command type</label>
+      <select id="Performer" onchange="
+        if (this.options[this.selectedIndex].index == 1) document.getElementById('SelectorBlock').style.display = 'block';
+        else document.getElementById('SelectorBlock').style.display = 'none';
+      ">
+        <option>/setblock</option>
+        <option>/execute at</option>
+      </select>
+      <div id="SelectorBlock" style="display:none;">
+        <label for="Selector">Selector</label>
+        <input type="text" id="Selector">
+        <div class="GenerateForm" id="GenerateFormOutput"></div>
+      </div>
+      <div>
+        <label for="BuildAir">Build with air</label>
+        <input type="checkbox" id="BuildAir">
+      </div>
+      <div>
+        <button id="GenerateButton" onclick="if(generator()) document.getElementById('DownloadMcfunctionLink').click()">Generate mcfunction!</button>
+      </div>
+    </div>
+
+    <div id="DownloadMcfunction" style="display:none;">
+      <a href="" id="DownloadMcfunctionLink">Save File</a>
+    </div>
+</section>
+
+
+    <script>
+      document.getElementById('files').addEventListener('change', receivingFile, false);
+    </script>
+  </body>
+</section>
+<section>
+  <nav>
+    <ul>
+      <li><a href="https://github.com/Sivprod">Original code</a></li>
+      <li><a href="background + examples/example1.png">Example 1</a></li>
+      <li><a href="background + examples/example2.png">Example 2</a></li>
+      <li><a href="background + examples/example3.png">Example 3</a></li>
+    </ul>
+  </nav>
+  
+  <article>
+    <h1>Usage:</h1>
+    <p>1.   Upload a .schematic file. For big schematics it will take longer obviously</p>
+    <p>2.   Choose your command type.</p>
+    <p>The "/setblock" command type will make a .mcfunction file with all the commands needed to recreate your schematic except rotations (Example 1).</p>
+    <p>
+    The "/execute as" command type does the same but will give you the option the give a selector. (Example 2) </p>
+    <p>The selector can be @a, @e, @p, @r or @s (It can even be @e[type=zombie,tag=123,nbt={fakescore:123b,Health:10..f}] ).  It is better if you use the selector *before* you run the function and skip this option but you can use this as well. 
+    For example: "execute as @a run setblock ~ ~-1 ~ sandstone" would be the outcome of your .mcfunction file if your .schematic would have one sandstone piece below you and the region is 1 by 1 block. If the region is a higher volume than the blocks in it, and you want the regions' air blocks to convert as well? the following feature comes in handy:</p>
+    <p>3. With the "Build with air" feature the generator will make the .mcfunction file also contain the air blocks in your schematic file (Example 3). 
+    </p>
+  </article>
+</section>
+<footer>
+  <p>
+  <nav>
+    <ul>
+      <li><a href="https://ocaly.github.io/home">Home</a></li>
+      <li><a href="https://www.reddit.com/u/ocaly">Reddit</a></li>
+      <li><a href="https://www.youtube.com/c/ocaly">YouTube</a></li>
+    </ul>
+  </nav>
+</p>
+</footer>
+
+</body>
 </html>

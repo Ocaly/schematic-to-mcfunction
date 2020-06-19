@@ -36,8 +36,8 @@ else
     	//document.getElementById('files-label').innerHTML = '<strong>Выбрать другой</strong>';
     	if(handlingFile(reader.result))
     	{
-    		document.getElementById('output').innerHTML = "Schematic succesfully uploaded";
-    		document.getElementById('output').style.color = '#2ead20';
+    		document.getElementById('output').innerHTML = "Schematic succesfully uploaded!";
+    		document.getElementById('output').style.color = '#2fad20';
     		//$('#GenerateForm').fadeIn(500);
     		document.getElementById('GenerateForm').style.display = 'block';
     		FileName = evt.target.files[0].name.split('.')[0];
@@ -213,8 +213,8 @@ function generator()
 		if(Blocks[i].Id == 0 && !BuildAir) continue;
 		else
 		{
-			if(Performer == 0) var Command = 'setblock ~' + Blocks[i].X + ' ~' + Blocks[i].Y + ' ~' + Blocks[i].Z + ' ' + StringIds[Blocks[i].Id] + ' ' + Blocks[i].Data + '\n';
-			else var Command = 'execute ' + Selector + ' ~ ~ ~ setblock ~' + Blocks[i].X + ' ~' + Blocks[i].Y + ' ~' + Blocks[i].Z + ' ' + StringIds[Blocks[i].Id] + ' ' + Blocks[i].Data + '\n';
+			if(Performer == 0) var Command = 'setblock ~' + Blocks[i].X + ' ~' + Blocks[i].Y + ' ~' + Blocks[i].Z + ' ' + StringIds[Blocks[i].Id] + ' ' + '\n';
+			else var Command = 'execute at ' + Selector + ' run setblock ~' + Blocks[i].X + ' ~' + Blocks[i].Y + ' ~' + Blocks[i].Z + ' ' + StringIds[Blocks[i].Id] + ' ' + '\n';
 			Commands += Command;
 		}
 	}
